@@ -12,7 +12,7 @@ class ThirdScreen extends StatefulWidget {
 
 class _ThirdScreenState extends State<ThirdScreen> {
   List<Users> users = [];
-  bool isLoading = false;
+  bool isLoading = true;
 
   void fetchUser() async {
     final result = await UserService.fetchUsers();
@@ -60,8 +60,9 @@ class _ThirdScreenState extends State<ThirdScreen> {
               ),
               itemCount: users.length,
               itemBuilder: (context, index) {
-                final list = users [index];
+                final list = users[index];
                 return Card(
+                  color: white,
                   child: ListTile(
                     leading: CircleAvatar(
                       backgroundImage: NetworkImage(list.avatar),

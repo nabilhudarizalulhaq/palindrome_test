@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:test_suitemedia/models/model.dart';
+import 'package:test_suitemedia/service/users.dart';
 import 'package:test_suitemedia/widget/globals.dart';
 
 class SecondScreen extends StatefulWidget {
@@ -9,6 +11,21 @@ class SecondScreen extends StatefulWidget {
 }
 
 class _ScondScreenState extends State<SecondScreen> {
+  List<Users> users = [];
+  bool isLoading = true;
+
+  void fetchUser() async {
+    final result = await UserService.fetchUsers();
+    users = result;
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUser();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,28 +74,39 @@ class _ScondScreenState extends State<SecondScreen> {
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 21),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Welcome',
-              style: blackTextStyle.copyWith(
-                fontSize: 12,
-                fontWeight: reguler,
+        padding: const EdgeInsets.symmetric(vertical: 13, horizontal: 16),
+        child: ListView.builder(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 20,
+          ),
+          itemCount: users.length,
+          itemBuilder: (context, index) {
+            final list = users[index];
+            return GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(context, '/third_screen');
+              },
+              child: Container(
+                margin: const EdgeInsets.only(bottom: 5),
+                decoration: BoxDecoration(
+                  color: white,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${list.firstName} ${list.lastName}',
+                      style: blackTextStyle.copyWith(
+                        fontSize: 24,
+                        fontWeight: semiBold,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 0.0,
-            ),
-            Text(
-              'John Doe',
-              style: blackTextStyle.copyWith(
-                fontSize: 18,
-                fontWeight: semiBold,
-              ),
-            ),
-          ],
+            );
+          },
         ),
       ),
     );
