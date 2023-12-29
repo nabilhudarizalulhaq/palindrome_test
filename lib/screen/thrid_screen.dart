@@ -12,7 +12,7 @@ class ThirdScreen extends StatefulWidget {
 
 class _ThirdScreenState extends State<ThirdScreen> {
   List<Users> users = [];
-  bool isLoading = true;
+  bool isLoading = false;
 
   void fetchUser() async {
     final result = await UserService.fetchUsers();
